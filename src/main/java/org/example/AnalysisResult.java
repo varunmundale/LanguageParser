@@ -10,4 +10,12 @@ public class AnalysisResult {
     }
 
 
+    @Override
+    public String toString() {
+        String result = "";
+        for ( var key: map.keySet()){
+            System.out.println(key + ": "+ map.get(key));
+        }
+        return result;
+    }
 }
