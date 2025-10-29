@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +22,7 @@ class AnalyserTest {
     @Test
     void testJavaFile() {
         String path = "src/main/resources/Main.java";
-        Analyser analyser = AnalyserFactory.getAnalyser(path);
-        AnalysisResult analysisResult = analyser.analyse(path);
+        AnalysisResult analysisResult = new AnalyserService().analyse(path);
         System.out.println(analysisResult);
         AnalysisResult expectedResult = new AnalysisResult(
                 new HashMap<>(Map.of("Blank",3,"Comment",3, "Code",6,"Total",12))
