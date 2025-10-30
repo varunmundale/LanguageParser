@@ -1,27 +1,26 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public abstract class Analyser {
 
     abstract LineTypeNode getLineType(String line);
 
 
-    AnalysisResult analyse(BufferedReader reader) throws IOException {
+    AnalysisResult analyse(Stream<String> lines) throws IOException {
         Map<String, Integer> map = new HashMap<>();
         int blank = 0;
         int comments = 0;
         int code = 0;
         int total = 0;
 
-        String line;
-
-        while ((line = reader.readLine()) != null) {
+        Iterator<String> iterator = lines.iterator();
+        while (iterator.hasNext()) {
+            String line = iterator.next();
             LineType type = getLineType(line).type;
             if (type == LineType.BLANK) {
                 blank++;
