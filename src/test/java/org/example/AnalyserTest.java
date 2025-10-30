@@ -3,18 +3,13 @@ package org.example;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
 class AnalyserTest {
 
     boolean resultEquals(AnalysisResult analysisResultExpected, AnalysisResult analysisResultActual){
-        var expectedMap = analysisResultExpected.map;
-        var actualMap = analysisResultActual.map;
-        for( var key : expectedMap.keySet()){
-            Assertions.assertEquals(expectedMap.get(key), actualMap.get(key));
-        }
+        Assertions.assertEquals(analysisResultExpected.blanks(), analysisResultActual.blanks());
+        Assertions.assertEquals(analysisResultExpected.comments(), analysisResultActual.comments());
+        Assertions.assertEquals(analysisResultExpected.codeLines(), analysisResultActual.codeLines());
+        Assertions.assertEquals(analysisResultExpected.total(), analysisResultActual.total());
         return true;
     }
     @Test
@@ -22,9 +17,11 @@ class AnalyserTest {
         String path = "src/main/resources/Main.java";
         AnalysisResult analysisResult = new AnalyserService().analyse(path);
         System.out.println(analysisResult);
-        AnalysisResult expectedResult = new AnalysisResult(
-                new HashMap<>(Map.of("Blank",3,"Comment",3, "Code",6,"Total",12))
-        );
+        AnalysisResult expectedResult = new AnalysisResult()
+                .setBlanks(3)
+                .setComments(3)
+                .setCodeLines(6)
+                .setTotal(12);
         Assertions.assertTrue( resultEquals(expectedResult,analysisResult));
 
     }

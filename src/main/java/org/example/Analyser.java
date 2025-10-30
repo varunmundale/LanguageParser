@@ -13,9 +13,9 @@ public abstract class Analyser {
 
     AnalysisResult analyse(Stream<String> lines) throws IOException {
         Map<String, Integer> map = new HashMap<>();
-        int blank = 0;
+        int blanks = 0;
         int comments = 0;
-        int code = 0;
+        int codeLines = 0;
         int total = 0;
 
         Iterator<String> iterator = lines.iterator();
@@ -23,22 +23,22 @@ public abstract class Analyser {
             String line = iterator.next();
             LineType type = getLineType(line).type;
             if (type == LineType.BLANK) {
-                blank++;
+                blanks++;
             } else if (type == LineType.COMMENT) {
                 comments++;
             } else if (type == LineType.CODE) {
-                code++;
+                codeLines++;
             }
             total++;
         }
         //populate all metrics
-        map.put("Blank", blank);
-        map.put("Comment", comments);
-        map.put("Code", code);
-        map.put("Total", total);
+        AnalysisResult analysisResult = new AnalysisResult()
+                .setBlanks(blanks)
+                .setComments(comments)
+                .setCodeLines(codeLines)
+                .setTotal(total);
 
-
-        return new AnalysisResult(map);
+        return analysisResult;
     }
 
 }
